@@ -75,12 +75,12 @@ stage('Update Deployment Manifest') {
 
                 git checkout -B ${MANIFEST_BRANCH} origin/${MANIFEST_BRANCH}
 
-                sed -i '/name: fastapi-app/{n;s|image:.*|image: ${DOCKER_IMAGE}:${env.BUILD_NUMBER}|}' manifests/deployment.yaml
+                sed -i '/name: fastapi-app/{n;s|image:.*|image: ${DOCKER_IMAGE}:${env.BUILD_NUMBER}|}' manifests/Deployment.yaml
 
                 git config user.name "sreelakshmi-2004"
                 git config user.email "sreelakshmins873@gmail.com"
 
-                git add manifests/deployment.yaml
+                git add manifests/Deployment.yaml
 
                 git commit -m "Update FastAPI image to build ${env.BUILD_NUMBER} [skip ci]" || echo "No changes to commit"
 
