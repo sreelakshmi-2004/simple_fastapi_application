@@ -5,7 +5,7 @@ pipeline {
     environment {
         DOCKER_CREDENTIALS_ID = 'docker-cred'
         DOCKER_IMAGE          = 'sreelakshmins2004/fastapi-app'
-        SONAR_SERVER_NAME     = 'sonarqube_env'
+        SONAR_SERVER_NAME     = 'sonarqube-env'
         SONAR_SCANNER_TOOL    = 'sonar-scanner'
         GIT_CREDENTIALS_ID    = 'github-cred'
         MANIFEST_BRANCH       = 'main'
