@@ -89,6 +89,7 @@ stage('Update Deployment Manifest') {
         }
     }
 }
+    }
 
 
     post {
