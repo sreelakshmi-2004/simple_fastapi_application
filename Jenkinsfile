@@ -60,34 +60,36 @@ pipeline {
             }
         }
 
-        stage('Update Deployment Manifest') {
-            steps {
-                withCredentials([usernamePassword(
-                    credentialsId: "${GIT_CREDENTIALS_ID}",
-                    usernameVariable: 'GH_USER',
-                    passwordVariable: 'GH_TOKEN'
-                )]) {
-                    sh """
-                        git config user.name "sreelakshmi-2004"
-                        git config user.email "sreelakshmins873@gmail.com"
+        
+stage('Update Deployment Manifest') {
+    steps {
+        withCredentials([usernamePassword(
+            credentialsId: "${GIT_CREDENTIALS_ID}",
+            usernameVariable: 'GH_USER',
+            passwordVariable: 'GH_TOKEN'
+        )]) {
+            sh """
+                git remote set-url origin https://\${GH_USER}:\${GH_TOKEN}@github.com/sreelakshmi-2004/simple_fastapi_application.git
 
-                        git remote set-url origin https://\${GH_USER}:\${GH_TOKEN}@github.com/\$(git config --get remote.origin.url | sed 's|.*github.com[:/]||; s|\\.git$||').git
+                git fetch origin ${MANIFEST_BRANCH}
 
-                        git fetch origin ${MANIFEST_BRANCH}
-                        git checkout -B ${MANIFEST_BRANCH} origin/${MANIFEST_BRANCH}
+                git checkout -B ${MANIFEST_BRANCH} origin/${MANIFEST_BRANCH}
 
-                        sed -i '/name: fastapi-app/{n;s|image:.*|image: ${DOCKER_IMAGE}:${env.BUILD_NUMBER}|}' manifests/deployment.yaml
+                sed -i '/name: fastapi-app/{n;s|image:.*|image: ${DOCKER_IMAGE}:${env.BUILD_NUMBER}|}' manifests/deployment.yaml
 
-                        git add manifests/deployment.yaml
+                git config user.name "sreelakshmi-2004"
+                git config user.email "YOUR_GITHUB_EMAIL"
 
-                        git commit -m "Update FastAPI image to build ${env.BUILD_NUMBER} [skip ci]" || echo "No changes to commit"
+                git add manifests/deployment.yaml
 
-                        git push origin ${MANIFEST_BRANCH}
-                    """
-                }
-            }
+                git commit -m "Update FastAPI image to build ${env.BUILD_NUMBER} [skip ci]" || echo "No changes to commit"
+
+                git push origin ${MANIFEST_BRANCH}
+            """
         }
     }
+}
+
 
     post {
         success {
