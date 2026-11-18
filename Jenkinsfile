@@ -78,7 +78,7 @@ stage('Update Deployment Manifest') {
                 sed -i '/name: fastapi-app/{n;s|image:.*|image: ${DOCKER_IMAGE}:${env.BUILD_NUMBER}|}' manifests/deployment.yaml
 
                 git config user.name "sreelakshmi-2004"
-                git config user.email "YOUR_GITHUB_EMAIL"
+                git config user.email "sreelakshmins873@gmail.com"
 
                 git add manifests/deployment.yaml
 
